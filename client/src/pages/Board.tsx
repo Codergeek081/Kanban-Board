@@ -1,4 +1,4 @@
-import { useEffect, useState, useLayoutEffect } from 'react';
+import { useEffect, useState, } from 'react';
 import { Link } from 'react-router-dom';
 
 import { retrieveTickets, deleteTicket } from '../api/ticketAPI';
@@ -22,6 +22,10 @@ const Board = () => {
     }
   };
 
+  useEffect(() => {
+    checkLogin();
+  }, []);
+
   const fetchTickets = async () => {
     try {
       const data = await retrieveTickets();
@@ -42,9 +46,7 @@ const Board = () => {
     }
   }
 
-  useLayoutEffect(() => {
-    checkLogin();
-  }, []);
+  
 
   useEffect(() => {
     if(loginCheck) {

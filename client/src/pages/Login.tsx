@@ -17,16 +17,21 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    try {
-      const data = await login(loginData);
-      console.log("Login response:", data)
-      Auth.login(data.token);
-    } catch (err) {
-      console.error('Failed to login', err);
+ const handleSubmit = async (e: FormEvent) => {
+  e.preventDefault();
+  try {
+    const data = await login(loginData);
+    console.log("Login response:", data); // Debugging
+
+    if (data && data.token) {
+      Auth.login(data.token); // Call Auth.login only if the token exists
+    } else {
+      console.error("No token received from login response");
     }
-  };
+  } catch (err) {
+    console.error("Failed to login", err);
+  }
+};
 
   return (
     <div className='container'>

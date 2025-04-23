@@ -6,22 +6,15 @@ import {
   updateUser,
   deleteUser,
 } from '../../controllers/user-controller.js';
+import { authenticateToken } from '../../middleware/auth.js'; // ✅ Import it
 
 const router = express.Router();
 
-// GET /users - Get all users
-router.get('/', getAllUsers);
-
-// GET /users/:id - Get a user by id
-router.get('/:id', getUserById);
-
-// POST /users - Create a new user
-router.post('/', createUser);
-
-// PUT /users/:id - Update a user by id
-router.put('/:id', updateUser);
-
-// DELETE /users/:id - Delete a user by id
-router.delete('/:id', deleteUser);
+// ✅ PROTECT USER ROUTES THAT REQUIRE AUTHENTICATION
+router.get('/', authenticateToken, getAllUsers);
+router.get('/:id', authenticateToken, getUserById);
+router.post('/', createUser); // ❌ usually kept public (register route)
+router.put('/:id', authenticateToken, updateUser);
+router.delete('/:id', authenticateToken, deleteUser);
 
 export { router as userRouter };
